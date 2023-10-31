@@ -1,40 +1,68 @@
 "use client"
 import { CartProductType } from "@/app/product/[productId]/ProductDetails";
-import { createContext,useCallback,useContext,useState } from "react";
+import { product } from "@/utils/product";
+import { createContext,useCallback,useContext,useEffect,useState } from "react";
+import toast, { Toast } from "react-hot-toast";
 
 type CartContextType ={
     cartTotalQty:number
     cartProducts:CartProductType[] | null;
     handleAddProductToCart:(product:CartProductType)=> void
+    handleRemoveProductFromCart:(product:CartProductType)=> void
 }
 
 export const CartContext =  createContext<CartContextType|null>(null);
 interface Props{
     [propName:string]:any;
-}
-export const CartContextProvider =(props:Props)=>{
+}export const CartContextProvider = (props: Props) => {
+    const [cartTotalQty, setCartTotalQty] = useState(10);
+    const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null);
 
-    const[cartTotalQty, setCartTotalQty] =useState(10);
-    const[cartProducts,setCartProducts]=useState<CartProductType[]|null>(null)
-    const handleAddProductToCart = useCallback((product:CartProductType)=>{
-            setCartProducts((prev)=>{
-                let updatedCart;
+    // Initialize cart products from local storage when the component mounts.
+    useEffect(() => {
+        const cartItems: any = localStorage.getItem('eShopCartItems');
+        const cProducts: CartProductType[] | null = JSON.parse(cartItems);
 
-                if(prev){
-                    updatedCart=[...prev, product];
-                }else{
-                    updatedCart = [product];
-                }
-                return updatedCart;
-            })
-    },[]);
-    const value ={
+        setCartProducts(cProducts);
+    }, []);
+
+    // Define a function to add a product to the cart.
+    const handleAddProductToCart = useCallback((product: CartProductType) => {
+        setCartProducts((prev) => {
+            let updatedCart;
+
+            if (prev) {
+                updatedCart = [...prev, product];
+            } else {
+                updatedCart = [product];
+            }
+            toast.success("Product added to cart");
+            localStorage.setItem('eShopCartItems', JSON.stringify(updatedCart));
+            return updatedCart;
+        });
+    }, []);
+
+    // Define a function to remove a product from the cart.
+    const handleRemoveProductFromCart = useCallback((product: CartProductType) => {
+        if (cartProducts) {
+            const filteredProducts = cartProducts.filter((item) => item.id !== product.id);
+            setCartProducts(filteredProducts);
+            toast.success("Product removed from cart");
+            localStorage.setItem("eShopCartItems", JSON.stringify(filteredProducts));
+        }
+    }, [cartProducts]);
+
+    // Provide the cart context value to consumers.
+    const value = {
         cartTotalQty,
         cartProducts,
-        handleAddProductToCart 
-    }
-    return <CartContext.Provider value={value}{... props}/>
+        handleAddProductToCart,
+        handleRemoveProductFromCart,
+    };
+
+    return <CartContext.Provider value={value} {...props} />;
 };
+
 export const useCart =()=>{
      const context = useContext(CartContext);
      if(context=== null)
