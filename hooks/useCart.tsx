@@ -9,6 +9,9 @@ type CartContextType ={
     cartProducts:CartProductType[] | null;
     handleAddProductToCart:(product:CartProductType)=> void
     handleRemoveProductFromCart:(product:CartProductType)=> void
+    handleCartQtyIncrease:(product:CartProductType)=> void
+    handleCartQtyDecrease:(product:CartProductType)=> void
+    handleClearCart:()=> void
 }
 
 export const CartContext =  createContext<CartContextType|null>(null);
@@ -51,13 +54,57 @@ interface Props{
             localStorage.setItem("eShopCartItems", JSON.stringify(filteredProducts));
         }
     }, [cartProducts]);
+        const handleCartQtyIncrease = useCallback((product:CartProductType)=>{
+            let updatedCart;
+            if(product.quantity ==99)
+            {
+                return toast.error("Quá số lượng rồi!")
+            }
+            if(cartProducts){
+                updatedCart = [...cartProducts]
+                const existingIndex = cartProducts.findIndex((item)=>item.id === product.id );
+                if(existingIndex > -1 ){
+                    updatedCart[existingIndex].quantity = 
+                    ++ updatedCart[existingIndex].quantity 
+                }
+                setCartProducts(updatedCart);
+                localStorage.setItem('eShopCartItems',JSON.stringify(updatedCart))
+            }
+        },[cartProducts]);
 
+        //giam so luong san pham
+        const handleCartQtyDecrease = useCallback((product:CartProductType)=>{
+            let updatedCart;
+            if(product.quantity ==1)
+            {
+                return toast.error("Không thể giảm được nữa!")
+            }
+            if(cartProducts){
+                updatedCart = [...cartProducts]
+                const existingIndex = cartProducts.findIndex((item)=>item.id === product.id );
+                if(existingIndex > -1 ){
+                    updatedCart[existingIndex].quantity = 
+                    -- updatedCart[existingIndex].quantity 
+                }
+                setCartProducts(updatedCart);
+                localStorage.setItem('eShopCartItems',JSON.stringify(updatedCart))
+            }
+        },[cartProducts]);
+
+        const handleClearCart = useCallback(()=>{
+            setCartProducts(null)
+            setCartTotalQty(0)
+            localStorage.setItem('eShopCartItems',JSON.stringify(null));
+        },[cartProducts])
     // Provide the cart context value to consumers.
     const value = {
         cartTotalQty,
         cartProducts,
         handleAddProductToCart,
         handleRemoveProductFromCart,
+        handleCartQtyIncrease,
+        handleCartQtyDecrease,
+        handleClearCart
     };
 
     return <CartContext.Provider value={value} {...props} />;
