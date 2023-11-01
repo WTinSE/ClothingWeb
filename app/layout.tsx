@@ -8,8 +8,8 @@ import Footer from './ components/footer/Footer'
 import CartProvider from './ components/providers/CartProvider'
 import { ToastBar, Toaster } from 'react-hot-toast'
 export const metadata: Metadata = {
-  title: 'Shop quần áo',
-  description: 'Ecommerce App',
+  title: 'LuxeGlobal',
+  description: 'Web bán quần áo',
 }
 
 export default function RootLayout({
