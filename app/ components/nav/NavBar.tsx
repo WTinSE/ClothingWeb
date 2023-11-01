@@ -22,12 +22,12 @@ const NavBar = () => {
         justify-between
         gap-3
         md:gap-0">
-          <Link href="/" className={`${redressed.className} font-bold text-2x;`}>E-Shop
+          <Link href="/" className={`${redressed.className} font-bold text-2x;`}>LuxeGlobal
           </Link>
-          <div className="hidden md:block">Sreach</div>
+          <div className="hidden md:block">Tìm kiếm</div>
           <div className="flex items-center gap-8 md:gap-12">
            <CartCount />
-            <div>UserMenu</div>
+            <div className={`${redressed.className} font-bold text-2x;`}>Menu</div>
           </div>
         </div>
       </Container>
