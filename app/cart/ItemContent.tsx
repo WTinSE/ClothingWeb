@@ -1,5 +1,4 @@
 'use client'
-
 import Link from "next/link";
 import { CartProductType } from "../product/[productId]/ProductDetails";
 import { formatPrice } from "@/utils/formatPrice";
@@ -14,7 +13,7 @@ interface ItemContentProps
     item:CartProductType
 }
 const ItemContent:React.FC<ItemContentProps> = ({item}) => {
-     const {handleRemoveProductFromCart}=useCart()
+     const {handleRemoveProductFromCart,handleCartQtyIncrease,handleCartQtyDecrease}=useCart()
     return ( <div className="
     grid
     grid-cols-5
@@ -57,8 +56,8 @@ const ItemContent:React.FC<ItemContentProps> = ({item}) => {
             <SetQuantity 
             cartCounter={true}
             cartProduct={item}
-            handleQtyIncrease={()=>{}}
-            handleQtyDecrease={()=>{}}
+            handleQtyIncrease={()=>{handleCartQtyIncrease(item);}}
+            handleQtyDecrease={()=>{handleCartQtyDecrease(item);}}
  />
         </div>
         <div className="justify-self-end font-semibold">
