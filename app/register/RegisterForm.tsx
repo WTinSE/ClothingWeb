@@ -6,6 +6,7 @@ import Input from "../ components/inputs/Input";
 import { FieldValues, useForm ,SubmitHandler} from "react-hook-form";
 import Button from "../ components/Button";
 import Link from "next/link";
+import { AiOutlineGoogle } from "react-icons/ai";
 
 
 
@@ -20,6 +21,11 @@ const RegisterForm = () => {
     console.log(data);}
     return (  <>
     <Heading title="Đăng ký thành viên LuxeGlobal"/>
+    <Button 
+    outline
+    label="Đăng nhập với Google"
+    icon={AiOutlineGoogle}
+    onClick={()=>{ }}/>
     <hr className="bg-slate-300 w-full h-px"/>
     <Input id="Name"
     label="Tên"
@@ -41,7 +47,7 @@ const RegisterForm = () => {
     required
     type="password"/>
     <Button label={isLoading?"Loading":'Dang ky'} onClick={handleSubmit(onSubmit)}/>
-    <p className="text-sm">Already have an account?{""} <Link className="underline" href={'/login'}>Log in
+    <p className="text-sm">Already have an account?{""} <Link className="underline" href='/login'>Log in
     </Link>
         </p>
     </>);
