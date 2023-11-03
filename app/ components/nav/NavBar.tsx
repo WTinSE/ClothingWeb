@@ -2,6 +2,7 @@ import Link from "next/link";
 import  Container  from "../Container";
 import { Redressed } from "next/font/google";
 import CartCount from "./CartCount";
+import UserMenu from "./UserMenu";
  const redressed = Redressed({subsets:["latin"],weight:['400']});
 
 const NavBar = () => {
@@ -27,7 +28,7 @@ const NavBar = () => {
           <div className="hidden md:block">Tìm kiếm</div>
           <div className="flex items-center gap-8 md:gap-12">
            <CartCount />
-            <div className={`${redressed.className} font-bold text-2x;`}>Menu</div>
+            <div className={`${redressed.className} font-bold text-2x;`}><UserMenu/></div>
           </div>
         </div>
       </Container>
