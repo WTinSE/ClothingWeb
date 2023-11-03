@@ -6,13 +6,17 @@ import { AiFillCaretDown } from "react-icons/ai";
 import Link from "next/link";
 import  MenuItem  from "./MenuItem";
 import { signOut } from "next-auth/react";
+import BackDrop from "./BackDrop";
 
 const UserMenu = () => {
     const [isOpen,setIsOpen]=useState(false)
+
     const toggleOpen = useCallback(()=>{
         setIsOpen((prev)=>!prev);
     },[]);
-    return (  <div >
+    return ( 
+        <>
+        <div className="relative z-30">
         <div onClick={toggleOpen} className="p-2
         border-[1px]
         flex
@@ -51,11 +55,23 @@ const UserMenu = () => {
                 <MenuItem onClick={()=>{
                     toggleOpen();
                     signOut()
-                }} >Logout</MenuItem>
+                }} >Logout
+                </MenuItem>
                  </div>
+                <div>
+                    <Link href="/login">
+                    <MenuItem onClick={toggleOpen}>Login</MenuItem>
+                    </Link>
+                    <Link href="/register">
+                    <MenuItem onClick={toggleOpen}>Register</MenuItem>
+                    </Link>
+                </div>
             </div>
         )}
-    </div>);
-}
+    </div>
+    {isOpen ? <BackDrop onClick={toggleOpen} />: null}
+    </>)
+    ;
+};
  
 export default UserMenu;
