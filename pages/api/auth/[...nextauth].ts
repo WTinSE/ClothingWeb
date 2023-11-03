@@ -21,7 +21,7 @@ export default NextAuth({
                 type:"text",
             },
             password:{
-                label:"password",
+                label:"Mật khẩu",
                 type:"password"
             },
         },
