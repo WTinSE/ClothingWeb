@@ -9,7 +9,7 @@ import Link from "next/link";
 import { AiOutlineGoogle } from "react-icons/ai";
 import axios from "axios";
 import toast from "react-hot-toast";
-import {signIn} from 'next-auth/react'
+import { signIn} from "next-auth/react";
 import { useRouter } from "next/navigation";
 const RegisterForm = () => {
     const [isLoading,setIsLoading]=useState(false)
@@ -24,7 +24,7 @@ const RegisterForm = () => {
     const onSubmit:SubmitHandler<FieldValues>=(data)=>{setIsLoading(true);
     setIsLoading(true);
         axios
-        .post('/api/register',data)
+        .post("/api/register",data)
         .then(()=>{
             toast.success('Account created');
             signIn("credentials",{
@@ -54,8 +54,8 @@ const RegisterForm = () => {
     icon={AiOutlineGoogle}
     onClick={()=>{ }}/>
     <hr className="bg-slate-300 w-full h-px"/>
-    <Input id="Name"
-    label="Tên"
+    <Input id="name"
+    label="Name"
     disabled={isLoading} 
     register={register}
     errors={errors}
@@ -66,8 +66,8 @@ const RegisterForm = () => {
     register={register}
     errors={errors}
     required/>
-    <Input id="Password"
-    label="Mật khẩu"
+    <Input id="password"
+    label="Password"
     disabled={isLoading} 
     register={register}
     errors={errors}
