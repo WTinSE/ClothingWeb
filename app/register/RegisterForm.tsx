@@ -55,7 +55,7 @@ const RegisterForm = () => {
     onClick={()=>{ }}/>
     <hr className="bg-slate-300 w-full h-px"/>
     <Input id="name"
-    label="Name"
+    label="Tên người dùng"
     disabled={isLoading} 
     register={register}
     errors={errors}
@@ -67,7 +67,7 @@ const RegisterForm = () => {
     errors={errors}
     required/>
     <Input id="password"
-    label="Password"
+    label="Mật khẩu"
     disabled={isLoading} 
     register={register}
     errors={errors}
