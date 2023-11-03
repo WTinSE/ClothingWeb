@@ -8,12 +8,9 @@ import Button from "../ components/Button";
 import Link from "next/link";
 import { AiOutlineGoogle } from "react-icons/ai";
 
-
-
 const LoginForm = () => {
     const [isLoading,setIsLoading]=useState(false)
     const {register,handleSubmit,formState:{errors},} = useForm<FieldValues>({defaultValues:{
-
         email: "",
         password: "",
     }});
