@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heading from "../ components/Heading";
 import Input from "../ components/inputs/Input";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
@@ -11,8 +11,12 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation"; // Sửa đường dẫn đến useRouter
+import { SafeUser } from "@/types";
 
-const LoginForm = () => {
+interface LoginFormProps{
+  currentUser:SafeUser|null
+}
+const LoginForm:React.FC<LoginFormProps> = ({currentUser}) => {
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
@@ -21,13 +25,16 @@ const LoginForm = () => {
     },
   });
   const router = useRouter();
+  useEffect(()=>{if(currentUser){router.push('/cart');
+  router.refresh();
+}},[]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
     signIn('credentials', {
       ...data,
-      redirect: false, // Sửa flase thành false
-    }).then((callback) => { // Thêm dấu ngoặc vào callback
+      redirect: false, 
+    }).then((callback) => { 
       setIsLoading(false);
 
       if (callback?.ok) {
@@ -40,7 +47,10 @@ const LoginForm = () => {
       }
     });
   };
-
+if(currentUser)
+{
+  return<p className="text-center">Logged in .Redirecting...</p>
+}
   return (
     <>
       <Heading title="Đăng nhập thành viên LuxeGlobal" />
@@ -48,7 +58,7 @@ const LoginForm = () => {
         outline
         label="Tiếp tục đăng nhập với Google"
         icon={AiOutlineGoogle}
-        onClick={() => { }}
+        onClick={() => {signIn('google') }}
       />
       <hr className="bg-slate-300 w-full h-px" />
       <Input
@@ -60,8 +70,8 @@ const LoginForm = () => {
         required
       />
       <Input
-        id="password" // Sửa thành id="password"
-        label="Mật khẩu"
+        id="password" 
+        label="Password"
         disabled={isLoading}
         register={register}
         errors={errors}
