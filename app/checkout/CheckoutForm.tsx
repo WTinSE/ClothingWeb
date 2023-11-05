@@ -2,18 +2,21 @@
 
 import { useCart } from "@/hooks/useCart";
 import { formatPrice } from "@/utils/formatPrice";
-import { useElements, useStripe } from "@stripe/react-stripe-js";
+import { PaymentElement, useElements, useStripe,AddressElement } from "@stripe/react-stripe-js";
 import { Result } from "postcss";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../ components/Heading";
-
+import Button from "../ components/Button";
+import styles from './styles.module.css';
 interface CheckoutFormProps{
     clientSecret: string,
     handleSetPaymentSuccess:(value:boolean)=>void
 }
 const CheckoutForm:React.FC<CheckoutFormProps> = ({clientSecret,handleSetPaymentSuccess}) => {
-
+    // const allCountries = [
+    //     'US', 'VN', 'CA', 'GB', 'FR', 'DE', 'AU', 'JP', 'CN', 'IN','NK' // Thêm các quốc gia khác nếu cần
+    //   ];
     const{cartTotalAmount,handleClearCart,handleSetPaymentIntent}=useCart()
     const stripe =useStripe();
     const elements = useElements();
@@ -51,9 +54,20 @@ const CheckoutForm:React.FC<CheckoutFormProps> = ({clientSecret,handleSetPayment
         })
     }
     return (  <form onSubmit={handleSubmit} id="payment_form">
-        <div className="mb-6">
-            <Heading title="Enter your details to complete checkout"/>
+        <div className="mb-6 text-center">
+            <h1 className="text-2xl font-bold">Nhập thông tin của bạn để hoàn tất thanh toán</h1>
         </div>
+
+        <h2 className="font-semibold mb-2">
+        Thông tin địa chỉ
+        </h2>
+        <AddressElement options={{mode:'shipping',allowedCountries: /*allCountries*/ ["VN","KE"]}}/>
+        <h2 className="font-semibold mt-4 mb-2">Thông tin thanh toán</h2>
+        <PaymentElement id="payment-element" options={{layout:"tabs"}}/>
+        <div className="py-4 text-center text-slate-700 text-x1 font-bold">
+        Tổng cộng:{formattedPrice}
+        </div>
+        <Button label={isLoading? 'Processing':'Pay now'} disabled={isLoading || !stripe || !elements } onClick={()=>{}}/>
         </form>);
 }
  
