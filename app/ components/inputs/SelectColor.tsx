@@ -35,7 +35,7 @@ export const SelectColor:React.FC<SelectColorProps>=({item,addImageToState,remov
             }
         },[]);
 
-    return (<div className="grid gird-cols-1 md:grid-cols-1 overflow-y-auto border-b-[1.2px] border-slate-200 items-center p-2">
+    return (<div className="grid gird-cols-1 overflow-y-auto border-b-[1.2px] border-slate-200 items-center p-2">
         <div className="flex flex-row gap-2 items-center h-[60px]">
             <input id={item.color} type="checkbox" checked={isSelected} onChange={handleCheck}
             className="cursor-pointer"
