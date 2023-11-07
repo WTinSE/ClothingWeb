@@ -11,12 +11,12 @@ const Footer  = () => {
                 <FooterList>
                     <h3 className="text-base font-bold
                     mb-2">Danh mục cửa hàng</h3>
-                    <Link href='#'>Quần dài</Link>
-                    <Link href='#'>Áo sơ mi</Link>
-                    <Link href='#'>Áo thun</Link>
-                    <Link href='#'>Áo khoát</Link>
-                    <Link href='#'>Quần sort</Link>
-                    <Link href='#'>Phụ kiện</Link>
+                    <Link href='#'>Áo Nam</Link>
+                    <Link href='#'>Áo Nữ</Link>
+                    <Link href='#'>Quần Nam</Link>
+                    <Link href='#'>Váy</Link>
+                    <Link href='#'>Áo Khoát</Link>
+                    <Link href='#'>Phụ Kiện</Link>
                 </FooterList>
                 <FooterList>
                     <h3 className="text-base font-bold
