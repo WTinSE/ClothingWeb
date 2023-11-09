@@ -26,8 +26,21 @@ const ManageProductsClient:React.FC<ManageProductsClientProps> = ({products}) =>
     }
     const columns:GridColDef[]=[
         {field:'id',headerName:'ID',width:220},
-    {field:'name',headerName:'Name',width:220},
-        {field:'price',headerName:'Price(USD)',width:100},]
+        {field:'name',headerName:'Name',width:220},
+        {field:'price',headerName:'Price(USD)',width:100,renderCell:(params)=>{
+            return(<div className="font-bold text-slate-800">{params.row.price}</div>);
+        },
+    },
+        {field:'category',headerName:"Category",width:100},
+        {field:'brand',headerName:"Brand",width:100},
+        {field:'inStock',headerName:"inStock",width:120,renderCell:(params)=>{
+    return(<div>{params.row.inStock==true? "in stock":"out of stock"}</div>);
+        },
+    },
+    {field:"action",headerName:"Actions",width:200,renderCell:(params)=>{
+        return(<div>Action</div>);}
+    }
+]
 
     return ( <div><DataGrid
         rows={rows}
