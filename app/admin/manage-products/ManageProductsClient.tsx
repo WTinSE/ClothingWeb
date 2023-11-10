@@ -3,12 +3,21 @@
 import { Product } from "@prisma/client";
 import {DataGrid, GridColDef} from '@mui/x-data-grid'
 import { formatPrice } from "@/utils/formatPrice";
+import { MdCached, MdCancel, MdClose, MdDelete, MdDone, MdRemoveRedEye } from "react-icons/md";
+import Status from "@/app/ components/Status";
+import ActionBtn from "@/app/ components/ActionBtn";
+import Heading from "@/app/ components/Heading";
+import { useCallback } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import toast from "react-hot-toast";
+
 
 interface ManageProductsClientProps{
     products:Product[]
 }
 const ManageProductsClient:React.FC<ManageProductsClientProps> = ({products}) => {
-
+ const router=useRouter()
     let rows:any=[]
     if(products)
     {
@@ -34,25 +43,62 @@ const ManageProductsClient:React.FC<ManageProductsClientProps> = ({products}) =>
         {field:'category',headerName:"Category",width:100},
         {field:'brand',headerName:"Brand",width:100},
         {field:'inStock',headerName:"inStock",width:120,renderCell:(params)=>{
-    return(<div>{params.row.inStock==true? "in stock":"out of stock"}</div>);
-        },
-    },
+    return(<div>{params.row.inStock==true?
+        (
+        <Status text="in stock"
+        icon={MdDone}
+        bg="bg-teal-200"
+        color="text-teal-700"
+        />
+        ):(
+            <Status text="out of stock" icon={MdClose}
+            bg="bg-rose-200"
+            color="text-rose-700"/>)}</div>
+    );},},
     {field:"action",headerName:"Actions",width:200,renderCell:(params)=>{
-        return(<div>Action</div>);}
+        return(<div className="flex justify-between gap-4 w-full">
+            <ActionBtn icon={MdCached} onClick={()=>{handleToggleStock(params.row.id,params.row.inStock);}}/>
+            <ActionBtn icon={MdDelete} onClick={()=>{}}/>
+            <ActionBtn icon={MdRemoveRedEye} onClick={()=>{}}/>
+            
+            </div>);}
     }
-]
+];
+const handleToggleStock = useCallback((id: string, inStock: boolean) => {
+    axios.put('/api/product', {
+        id,
+        inStock: !inStock
+    })
+    .then((res) => {
+        toast.success('Product status changed');
+        router.refresh();
+    })
+    .catch((err) => {
+        toast.error('Oops! Something went wrong');
+        console.log(err);
+    });
+}, []);
 
-    return ( <div><DataGrid
+
+    return ( <div className="max-w-[1150px] m-auto text-x1">
+        <div className="mb-4 mt-8">
+            <Heading title="Manage Product" center />
+        </div >
+        <div style={{height:600 ,width:"100%"}}>
+        <DataGrid
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 9 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[9, 20]}
         checkboxSelection
-      /></div> );
+        disableRowSelectionOnClick
+      /></div> </div>);
 }
  
 export default ManageProductsClient;
+
+
