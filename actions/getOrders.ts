@@ -7,7 +7,7 @@ export default async function getOrders() {
                 user:true
             },
             orderBy :{
-                createdDate:'desc'
+                createDate:'desc'
             }      
         })
         return orders
