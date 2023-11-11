@@ -120,7 +120,7 @@ const handleDispatch = useCallback((id: string) => {
 const handleDeliver = useCallback((id: string) => {
     axios.put('/api/order', {
         id,
-        deliveryStatus:'dilivered'
+        deliveryStatus:'delivered'
     }) 
     .then((res) => {
         toast.success('Order Delivered');
