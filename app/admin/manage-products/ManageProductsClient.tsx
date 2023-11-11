@@ -3,7 +3,7 @@
 import { Product } from "@prisma/client";
 import {DataGrid, GridColDef} from '@mui/x-data-grid'
 import { formatPrice } from "@/utils/formatPrice";
-import { MdCached, MdCancel, MdClose, MdDelete, MdDone, MdRemoveRedEye } from "react-icons/md";
+import { MdCached, MdClose, MdDelete, MdDone, MdRemoveRedEye } from "react-icons/md";
 import Status from "@/app/ components/Status";
 import ActionBtn from "@/app/ components/ActionBtn";
 import Heading from "@/app/ components/Heading";
@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { deleteObject, getStorage, ref } from "firebase/storage";
-import { error } from "console";
+
 import firebaseApp from "@/libs/firebase";
 
 
